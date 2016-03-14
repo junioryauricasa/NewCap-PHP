@@ -2,8 +2,10 @@
 session_start ();
 if ($_SESSION['usuario']) {
 	include 'Modelo/reporteEjecutivo.class.php';
+	include 'Modelo/Ejecutivo.class.php';
 
 	$reporteEjecutivo = new reporteEjecutivo();
+	$Ejecutivo = new Ejecutivo();
 	?>
 	<!DOCTYPE html>
 	<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
@@ -64,9 +66,24 @@ if ($_SESSION['usuario']) {
 								<nav id="bprincipal" class="navbar navbar-default navbar-inverse"
 									role="navigation">
 									<div class="navbar-collapse  navbar-filter">
-										
+									<label for="inputEmail1" style="margin-right:20px; margin-left:20px;">Ejecutivo: </label>
+										<select id="txtEjecutivo1R" style="height:23px; width:150px" >
+										<option value="0"  selected>Seleccionar</option>
+										<?php
+										$query = $Ejecutivo->ObtenerEjecutivos();
+										//echo $query;
+										while ( $var = mysql_fetch_array ( $query ) ) {
+											$i ++;
+										?>	
+											<option value="<?php echo$var['idEjecutivos']; ?>"><?php echo$var['nombre']; ?></option>
+										<?php }?>
+										</select>
+										<label for="inputEmail1" style="margin-right:20px; margin-left:20px;">Fecha Inicial :</label>
+										<input type="date" style="height:23px; width:150px" value="" id="txtFechaInicio" name="txtFechaInicio">
+										<label for="inputEmail1" style="margin-right:20px; margin-left:20px;">Fecha Final :</label>
+										<input type="date" style="height:23px; width:150px" value="" id="txtFechaFin" name="txtFechaFin" >
 										</a> &nbsp;&nbsp; <a class="btn btn-default"
-											data-toggle="modal" href="#" onclick="AbrirPopupCrearCustodio()"> <span
+											data-toggle="modal" href="#" onclick="Ejecutarreporte()"> <span
 											class="fa fa-user-plus"></span> Buscar
 										</a> &nbsp;&nbsp; 
 									</div>
@@ -502,22 +519,23 @@ if ($_SESSION['usuario']) {
 		$('#myModalAddFondo').modal('show');  myModalVerHistorial
 	}
 
-	function CrearCustodio()
+	function Ejecutarreporte()
 	{
-		var CodigoCustodio = $('#txtCodigoCustodio').val();
-		var NombreCustodio = $('#txtNombreCustodio').val();
-		var accion = "CrearCustodio";
+		var Ejecutivo = $('#txtEjecutivo1R').val();
+		var FechaInicio= $('#txtFechaInicio').val();
+		var FechaFin = $('#txtFechaFin').val();
+		var accion = "ListarReporteEjecutivo";
 		debugger;
-		if(CodigoCustodio!="" && NombreCustodio !="" )
+		if(Ejecutivo!="" && FechaInicio !=""&& FechaFin !=""  )
 		{
-			var parametros = {"accion":accion,"CodigoCustodio":CodigoCustodio,"NombreCustodio":NombreCustodio};
-
+			var parametros = {"accion":accion,"Ejecutivo":Ejecutivo,"FechaInicio":FechaInicio,"FechaFin":FechaFin};
 			$.ajax({
 			        data:  parametros,
-			        url:   'Controlador/CustodioController.php',
+			        url:   'Controlador/ReporteController.php',
 			        type:  'post',
 			        success:  function(response){
-			        	mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+			        	//mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+			        	$("#BandejaUsuarios").html(response);
 			        },
 			        error: function(data, errorThrown){
 			        	mensajeDiv('idMensajeU', 2, "Ocurrio un error.");
@@ -529,6 +547,7 @@ if ($_SESSION['usuario']) {
 			mensajeDiv('idMensajeU', 2, "Completar todos los campos");
 		}
 	}
+	/*
 	function AbrirPopupEliminar(idCustodio)
 	{
 		var answer = confirm("Esta Seguro que quiere eliminar el Custodio?")
@@ -549,7 +568,7 @@ if ($_SESSION['usuario']) {
 	}
 
 
-/*
+
 	function AbrirPopupHistorial(idFondos)
 	{
 		$('#txtIdFondo').val(idFondos);

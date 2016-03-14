@@ -23,10 +23,10 @@ class reporteEjecutivo{
 	
 		if(!empty($fechainicio))
 		{
-			$query.="and b.fechaCarga BETWEEN '".$fechainicio."' and '".$fechafin."'";
+			$query.=" and b.fechaCarga BETWEEN '".$fechainicio."' and '".$fechafin."'";
 		}
 		
-		$query.="order by b.idOperaciones desc";
+		$query.=" order by b.idOperaciones desc";
 
 		$arreglo = mysql_query($query);
 		//echo var_dump($query);
