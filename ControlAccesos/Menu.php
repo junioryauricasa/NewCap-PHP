@@ -66,10 +66,10 @@ $util = new Util();
 				<a href="Noticias.php" id="divimportacion" class="list-group-item">
 					<span class="fa fa-desktop"></span>Noticias
 				</a>
-				<!-- 
+				 
 				<a href="reporteEjecutivos.php" id="divimportacion" class="list-group-item">
 					<span class="fa fa-desktop"></span>Reporte Ejecutivos
-				</a> -->
+				</a> 
 				<?php }
 				else {?>
 				<a href="ClienteOperaciones.php" id="divimportacion" class="list-group-item">
