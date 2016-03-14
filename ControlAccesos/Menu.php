@@ -65,7 +65,7 @@ $util = new Util();
 				</a>
 				<a href="Noticias.php" id="divimportacion" class="list-group-item">
 					<span class="fa fa-desktop"></span>Noticias
-				</a>
+				</a> 
 				 
 				<a href="reporteEjecutivos.php" id="divimportacion" class="list-group-item">
 					<span class="fa fa-desktop"></span>Reporte Ejecutivos
