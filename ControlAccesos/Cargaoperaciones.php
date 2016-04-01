@@ -280,7 +280,7 @@ if ($_SESSION['usuario']) {
 
 	function AgregarFichero()
 	{
-		debugger;
+
 		//var xfecha = $('#txtFechaIniciocarga').val();
 		var fd = new FormData();
         fd.append("File", document.getElementById('File').files[0]);

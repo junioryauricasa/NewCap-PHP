@@ -1,15 +1,18 @@
 <?php
-require_once '../modelo/conexion.class.php';
-
-$con = new DBManager();
-$con->conectar();
-$cadenaRetorno ="<table border='1'>";
 if(is_array($_FILES)) {
 	if(is_uploaded_file($_FILES['File']['tmp_name'])) {
-		//$fecha = $_GET['fecha'];
+		$sourcePath = $_FILES['File']['tmp_name'];
+		//$targetPath = "../excel/".$_FILES['File']['name'];
+		//move_uploaded_file($sourcePath,$targetPath);
+		date_default_timezone_set('America/Lima');
+		include('../Modelo/conexion.class.php');
+		$con = new DBManager();
+		$con->conectar();
+		//echo $targetPath;
+		$cadenaRetorno ="<table border='1'>";
+		$handle = fopen($sourcePath, "r");
 		
-		$filename = $_FILES['File']['tmp_name'];
-		$handle = fopen($filename, "r");
+		//$handle = fopen($targetPath, "r");
 		
 		$cadenaRetorno .="<tr>";
 		$cadenaRetorno .="<td>Fecha</td>";
@@ -111,12 +114,14 @@ if(is_array($_FILES)) {
 				}elseif($SaldoActual<$preciofinal){
 					$mensaje = "Saldo insuficiente";
 				}else{
+					
+					$preciofinal =	($precio*$cantidad)+($totalcomision*$cantidad);
 					//Registrar operacion
 					if($preciofinal<$minimocompra){
 						$preciofinal = $minimocompra;
 					}
 					
-					$preciofinal =	($precio*$cantidad)+($totalcomision*$cantidad);
+					
 					//echo $preciofinal." ".$precio." ".$totalcomision." ".$totalcomision." ".$cantidad;
 					$saldofinal =$SaldoActual-$preciofinal;
 					$hoy = date("Y-m-d");
@@ -200,12 +205,12 @@ if(is_array($_FILES)) {
 	}
 	else
 	{
-		$mensaje =  "error";
+		$mensaje =  "error i";
 	}
 }
 else
 {
-	$mensaje = "error";
+	$mensaje = "error z";
 }
 echo  $cadenaRetorno;
 ?>
