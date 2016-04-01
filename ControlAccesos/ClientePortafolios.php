@@ -110,7 +110,15 @@ if ($_SESSION['usuario']) {
 										
 							</div>
 						</div>
-					
+					<div class="panel-heading">
+							<strong><span id="omenu" class="fa fa-chevron-circle-left"></span>
+								Cash: </strong> <?php 
+								$query = $portafolio->obtenerCash($_SESSION['idUsuario']);
+								$var1 = mysql_fetch_array ( $query );
+								echo number_format($var1['saldoActual'],2,'.',',');
+								?><span class="pull-right"><span id="oprincipal" class="fa fa-chevron-circle-up"></span>
+													
+						</div>
 					
 					<div class="panel-heading">
 							<strong><span id="omenu" class="fa fa-chevron-circle-left"></span>

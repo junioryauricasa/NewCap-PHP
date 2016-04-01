@@ -111,8 +111,10 @@ if(is_array($_FILES)) {
 					$mensaje = "El activo no es valido";
 				}elseif($idusuario==""){
 					$mensaje = "El usuario no es valido";
+				/*	
 				}elseif($SaldoActual<$preciofinal){
 					$mensaje = "Saldo insuficiente";
+				*/	
 				}else{
 					
 					$preciofinal =	($precio*$cantidad)+($totalcomision*$cantidad);
@@ -157,12 +159,12 @@ if(is_array($_FILES)) {
 						$mensaje = "No existe en el portafolio";
 				}else{
 
-					$preciofinal =	($precio*cantidad)-($totalcomision*cantidad);
+					$preciofinal =	($precio*$cantidad)-($totalcomision*$cantidad);
 					
 					if($preciofinal<$minimocompra){
 						$preciofinal = $minimocompra;
 					}
-					if($cantidadportafolio>$cantidad){
+					//if($cantidadportafolio>$cantidad){
 						
 
 						$saldofinal =$SaldoActual+$preciofinal;
@@ -178,9 +180,9 @@ if(is_array($_FILES)) {
 						mysql_query($sql);
 						
 						
-					}else{
-						$mensaje = "Insuficiente activos en el portafolio";
-					}
+					//}else{
+					//	$mensaje = "Insuficiente activos en el portafolio";
+					//}
 				}
 			}else{
 				$mensaje = "El tipo de operacion es invalida";

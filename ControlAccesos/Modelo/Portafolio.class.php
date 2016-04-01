@@ -24,5 +24,12 @@ class Portafolio{
 		$arreglo = mysql_query($query);
     	return $arreglo;
 	}
+	function obtenerCash($Usuario){
+		$this->con->conectar();
+		$query="select saldoActual from estadocuenta where idCliente =  ".$Usuario;
+		$arreglo = "";
+		$arreglo = mysql_query($query);
+		return $arreglo;
+	}
 
 }
