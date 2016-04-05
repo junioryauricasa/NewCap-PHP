@@ -33,9 +33,9 @@ class Operaciones{
 							
 		mysql_query($queryInsert);	
 		//Registrar actividad
-		
-		$queryInsert = "INSERT INTO operacionesacciones (fechaHora,idActivo,idCliente,tipoOperacion,cantidad,precio,saldoFinal,estado)
-                            VALUES (NOW(),0,".$idUsuario.",'D',1,".$Monto.",".$NuevoSaldo.",1)";
+		$hoy = date("Y-m-d");
+		$queryInsert = "INSERT INTO operacionesacciones (fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)
+                            VALUES (NOW(),18,".$idUsuario.",'D',1,".$Monto.",0,0,".$NuevoSaldo.",1,$hoy)";
 		
 		mysql_query($queryInsert);		
 		}else if($Tipo="R"){
@@ -57,7 +57,7 @@ class Operaciones{
 				//Registrar actividad
 				
 				$queryInsert = "INSERT INTO operacionesacciones (fechaHora,idActivo,idCliente,tipoOperacion,cantidad,precio,saldoFinal,estado)
-                            VALUES (NOW(),0,".$idUsuario.",'R',1,".$Monto.",".$NuevoSaldo.",1)";
+                            VALUES (NOW(),19,".$idUsuario.",'R',1,".$Monto.",".$NuevoSaldo.",1)";
 				
 				mysql_query($queryInsert);
 				
@@ -107,6 +107,8 @@ class Operaciones{
 						c.descripcion,
 						a.cantidad,
 						a.precio,
+						a.preciou,
+						a.comision,
 						a.saldoFinal from operacionesacciones a join usuarios b on a.idCliente = b.idUsuarios 
 				join activo c on c.idActivo = a.idActivo
 				where a.estado = 1  ";

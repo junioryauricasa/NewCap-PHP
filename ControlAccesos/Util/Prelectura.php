@@ -117,18 +117,21 @@ if(is_array($_FILES)) {
 				*/	
 				}else{
 					
-					$preciofinal =	($precio*$cantidad)+($totalcomision*$cantidad);
-					//Registrar operacion
-					if($preciofinal<$minimocompra){
-						$preciofinal = $minimocompra;
-					}
+					$pcomision = $totalcomision*$cantidad;
 					
+					//Registrar operacion
+					if($pcomision<$minimocompra){						
+						$spcomision  = $minimocompra;
+					}else{
+						$spcomision  = $totalcomision*$cantidad;
+					}
+					$preciofinal =	($precio*$cantidad)+$spcomision;
 					
 					//echo $preciofinal." ".$precio." ".$totalcomision." ".$totalcomision." ".$cantidad;
 					$saldofinal =$SaldoActual-$preciofinal;
 					$hoy = date("Y-m-d");
-					$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,precio,saldoFinal,estado,fechaCarga)";
-					$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$preciofinal','$saldofinal',1,'$hoy')";
+					$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)";
+					$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
 					mysql_query($sql);
 					
 					$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
@@ -155,15 +158,19 @@ if(is_array($_FILES)) {
 					$mensaje = "El activo no es valido";
 				}elseif($idusuario==""){
 					$mensaje = "El usuario no es valido";
-				}elseif($cantidadportafolio==""){
-						$mensaje = "No existe en el portafolio";
 				}else{
-
-					$preciofinal =	($precio*$cantidad)-($totalcomision*$cantidad);
+		
 					
-					if($preciofinal<$minimocompra){
-						$preciofinal = $minimocompra;
+					$pcomision = $totalcomision*$cantidad;
+					
+					//Registrar operacion
+					if($pcomision<$minimocompra){						
+						$spcomision  = $minimocompra;
+					}else{
+						$spcomision  = $totalcomision*$cantidad;
 					}
+					$preciofinal =	($precio*$cantidad)-$spcomision;
+					
 					//if($cantidadportafolio>$cantidad){
 						
 
@@ -171,10 +178,14 @@ if(is_array($_FILES)) {
 						$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
 						mysql_query($sql);
 						$hoy = date("Y-m-d");
-						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,precio,saldoFinal,estado,fechaCarga)";
-						$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$preciofinal','$saldofinal',1,'$hoy')";
+						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comison,saldoFinal,estado,fechaCarga)";
+						$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
 						mysql_query($sql) ;
-						
+						if($cantidadportafolio==""){
+							$sql1 = "INSERT into portafolios(idActivo,idCliente,cantidad,estado)";
+							$sql1 .= "values('$idactivo','$idusuario',0,1)";
+							mysql_query($sql1);
+						}
 						$cantidadActual = $cantidadportafolio-$cantidad;
 						$sql = "UPDATE portafolios set cantidad ='".$cantidadActual."' where idCliente ='".$idusuario."' and idActivo='".$idactivo."'";
 						mysql_query($sql);

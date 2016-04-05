@@ -152,6 +152,8 @@ if ($_SESSION['usuario']) {
 											<th>Tipo</th>
 											<th>Cantidad</th>
 											<th>Precio</th>
+											<th>Comision</th>
+											<th>Total</th>
 											<th>SaldoFinal</th>
 										</tr>
 									</thead>
@@ -178,7 +180,10 @@ if ($_SESSION['usuario']) {
 											 ?></td>
 											
 											<td><?php echo number_format($var['cantidad'],2,'.',','); ?></td>
+											<td><?php echo number_format($var['preciou'],2,'.',','); ?></td>
+											<td><?php echo number_format($var['comision'],2,'.',','); ?></td>
 											<td><?php echo number_format($var['precio'],2,'.',','); ?></td>
+											
 											<td><?php echo number_format($var['saldoFinal'],2,'.',','); ?></td>
 											<?php 
 											if($var['tipo'] == "APORTE")

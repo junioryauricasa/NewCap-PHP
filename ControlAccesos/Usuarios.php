@@ -662,8 +662,9 @@ if ($_SESSION['usuario']) {
 	function CalcularTotal(){
 		//txtTotalR
 		var ncr = $('#txtNcR').val();
-		var clearing = $('#txtClearingR').val();		
-		$('#txtTotalR').val(parseFloat(ncr)+parseFloat(clearing));
+		var clearing = $('#txtClearingR').val();	
+		var  num 	= parseFloat(ncr*1000)+parseFloat(clearing*1000);
+		$('#txtTotalR').val(num/1000);
 
 	}
 	function FiltrarUsuarios()
