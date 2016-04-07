@@ -91,7 +91,7 @@ class Operaciones{
 			$query.=" AND b.idUsuarios LIKE '%".$Usuario."%'";
 		}
 	
-		$query.=" ORDER BY a.idHistorialoperaciones DESC ";
+		$query.=" ORDER BY a.fechaHora DESC ";
 	
 		$arreglo = "";
 		$arreglo = mysql_query($query);

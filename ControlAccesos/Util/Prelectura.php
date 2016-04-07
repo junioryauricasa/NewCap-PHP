@@ -178,7 +178,7 @@ if(is_array($_FILES)) {
 						$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
 						mysql_query($sql);
 						$hoy = date("Y-m-d");
-						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comison,saldoFinal,estado,fechaCarga)";
+						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)";
 						$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
 						mysql_query($sql) ;
 						if($cantidadportafolio==""){
