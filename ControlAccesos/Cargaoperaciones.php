@@ -57,7 +57,7 @@ if ($_SESSION['usuario']) {
 					<div class="panel panel-default" id="importacion">
 						<div class="panel-heading">
 							<strong><span id="omenu" class="fa fa-chevron-circle-left"></span>
-								Ficheros</strong> <span class="pull-right"><span
+								Cargar operaciones</strong> <span class="pull-right"><span
 								id="oprincipal" class="fa fa-chevron-circle-up"></span>						
 						</div>
 						<div class="panel-body">
@@ -205,11 +205,12 @@ if ($_SESSION['usuario']) {
 					</div>
 					<div class="modal-body" style="padding-bottom: 0px !important;">
 						<div id="idMensajeU"></div>
-						<div id ="targetLayer"></div>
+						<div id ="targetLayer" style="height:300px; overflow: scroll;"></div>
 						<!-- FORM -->
 						<form class="bs-example form-horizontal u-action-error">
 							
 							
+
 							<div class="form-group">
 								<label for="inputEmail1" class="col-lg-2 control-label">Archivo:</label>
 								<div class="col-lg-4">
@@ -220,6 +221,11 @@ if ($_SESSION['usuario']) {
 					<div class="modal-footer">
 						<table align="right">
 							<tr>
+								<td>
+									<button class="btn btn-primary" type="button"
+										onclick="ValidarFichero()">
+										<span class="btn btn-default"></span> Validar
+								</td>
 								<td>&nbsp;&nbsp;</td>
 								<td>
 									<button class="btn btn-primary" type="button"
@@ -275,9 +281,44 @@ if ($_SESSION['usuario']) {
 
 	function AbrirPopupCrearFichero()
 	{
+		
+		
 		$('#myModalAddFichero').modal('show');
+		
 	}
+	
+	function ValidarFichero()
+	{
 
+		//var xfecha = $('#txtFechaIniciocarga').val();
+		var fd = new FormData();
+        fd.append("File", document.getElementById('File').files[0]);
+        if(document.getElementById('File').files[0] != null)
+        {
+			$.ajax({
+				url: "Util/Validacion.php",
+				type: "POST",
+				data:  fd,
+				contentType: false,
+			    cache: false,
+				processData:false,
+				success:  function(response){
+					$("#targetLayer").html(response);
+				    if(response != "error")
+				    {
+				        //RegistrarFichero(response);
+				    }
+				},
+				error: function(data, errorThrown){
+				    alert(errorThrown);
+				}
+			});
+		}
+		else
+		{
+			alert("Por favor llenar todos los campos");
+		}
+	}
 	function AgregarFichero()
 	{
 
@@ -360,6 +401,7 @@ if ($_SESSION['usuario']) {
 			        type:  'post',
 			        success:  function(response){
 			        	$('#BandejaFichero').html(response);
+			        	
 			        },
 			        error: function(data, errorThrown){
 			        }

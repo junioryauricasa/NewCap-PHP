@@ -170,6 +170,11 @@ if ($_SESSION['usuario']) {
 											<td><a href=# onclick="AbrirPopupVerOperaciones(<?php echo$var['idUsuarios']; ?>)">
 													<i class="fa fa-search-plus"> </i>
 												</a>
+												
+												<a href=# onclick="AbrirPopupEditar(<?php echo$var['idUsuarios']; ?>)">
+													<i class="fa fa-database"> </i>
+												</a>
+												
 											</td>
 											<td><a href=# onclick="AbrirPopupAsignarFondos(<?php echo$var['idUsuarios']; ?>)">
 													<i class="fa fa-chevron-circle-up"> </i>
@@ -211,6 +216,8 @@ if ($_SESSION['usuario']) {
 						<div id="idMensajeU"></div>
 						<!-- FORM -->
 						<form class="bs-example form-horizontal u-action-error">
+						
+						
 							<div class="form-group">
 								<label for="inputEmail1" class="col-lg-2 control-label">Nombres:</label>
 								<div class="col-lg-4">
@@ -419,56 +426,127 @@ if ($_SESSION['usuario']) {
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true" onclick="refresh()">&times;</button>
 						<h4 class="modal-title">
-							<span class="fa fa-user-plus"></span><label id="lblTitulo">Editar
-								Usuario</label>
+							<span class="fa fa-user-plus"></span><label id="lblTitulo">Editar Valores de usuario</label>
 						</h4>
 					</div>
 					<div class="modal-body" style="padding-bottom: 0px !important;">
-						<div id="idMensajeE"></div>
+						<div id="idMensajeU"></div>
 						<!-- FORM -->
 						<form class="bs-example form-horizontal u-action-error">
+
+							<!-- Capa a ocultar  -->
+							
+							
 							<div class="form-group">
+								<label for="inputEmail1" class="col-lg-2 control-label">Custodio:</label>
+								<div class="col-lg-4">
+									<select id="txtCustodioR" class="form-control">
+									<option value="0"  selected>Seleccionar</option>
+									<?php
+									$query = $Custodio->ObtenerCustodios();
+									//echo $query;
+									while ( $var = mysql_fetch_array ( $query ) ) {
+										$i ++;
+									?>	
+										<option value="<?php echo$var['idCustodios']; ?>"><?php echo$var['nombre']; ?></option>
+									<?php }?>
+									</select>
+								</div>			
+								<label for="inputEmail1" class="col-lg-2 control-label">Codigo:</label>
+								<div class="col-lg-4">
+									<input type="text" id="txtCodigoR" class="form-control" >
+								</div>
+							</div>	
+							<div class="form-group">
+								<label for="inputEmail1" class="col-lg-2 control-label">Ejecutivo1:</label>
+								<div class="col-lg-4">
+									<select id="txtEjecutivo1R" class="form-control" >
+									<option value="0"  selected>Seleccionar</option>
+									<?php
+									$query = $Ejecutivo->ObtenerEjecutivos();
+									//echo $query;
+									while ( $var = mysql_fetch_array ( $query ) ) {
+										$i ++;
+									?>	
+										<option value="<?php echo$var['idEjecutivos']; ?>"><?php echo$var['nombre']; ?></option>
+									<?php }?>
+									</select>
+								</div>
+								<label for="inputEmail1" class="col-lg-2 control-label">Comision</label>
+								<div class="col-lg-4">
+									<input type="text" id="txtEjecutivo1RSaldo" class="form-control"  value="0" style="width:70px">
+								</div>
 								
-								<label for="inputEmail1" class="col-lg-2 control-label">Nombres:</label>
+								
+							</div>	
+							<div class="form-group">
+								<label for="inputEmail1" class="col-lg-2 control-label">Ejecutivo2:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtNombresE" class="form-control">
+									<select id="txtEjecutivo2R" class="form-control">
+									<option value="0"  selected>Seleccionar</option>
+									<?php
+									$query = $Ejecutivo->ObtenerEjecutivos();
+									//echo $query;
+									while ( $var = mysql_fetch_array ( $query ) ) {
+										$i ++;
+									?>	
+										<option value="<?php echo$var['idEjecutivos']; ?>"><?php echo$var['nombre']; ?></option>
+									<?php }?>
+									</select>
 								</div>
-								<label for="inputEmail1" class="col-lg-2 control-label">Apellidos:</label>
+									<label for="inputEmail1" class="col-lg-2 control-label">Comision</label>
+									<div class="col-lg-4">
+									<input type="text" id="txtEjecutivo2RSaldo" class="form-control"  value="0" style="width:70px">
+									</div>
+							</div>	
+							<div class="form-group">
+								<label for="inputEmail1" class="col-lg-2 control-label">Ejecutivo3:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtApellidosE" class="form-control">
+									<select id="txtEjecutivo3R" class="form-control">
+									<option value="0"  selected>Seleccionar</option>
+									<?php
+									$query = $Ejecutivo->ObtenerEjecutivos();
+									//echo $query;
+									while ( $var = mysql_fetch_array ( $query ) ) {
+										$i ++;
+									?>	
+										<option value="<?php echo$var['idEjecutivos']; ?>"><?php echo$var['nombre']; ?></option>
+									<?php }?>
+									</select>
+								</div>
+								<label for="inputEmail1" class="col-lg-2 control-label">Comision</label>
+									<div class="col-lg-4">
+									<input type="text" id="txtEjecutivo3RSaldo" class="form-control"  value="0" style="width:70px">
 								</div>
 							</div>	
 							<div class="form-group">
-								<label for="inputEmail1" class="col-lg-2 control-label">Direccion:</label>
+								<label for="inputEmail1" class="col-lg-2 control-label">NC:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtDireccionE" class="form-control">
+									<input type="text" id="txtNcR" class="form-control"  value="0" onchange="CalcularTotal()">
 								</div>
-								<label for="inputEmail1" class="col-lg-2 control-label">DNI:</label>
+								<label for="inputEmail1" class="col-lg-2 control-label">Clearing:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtDNIE" class="form-control">
-								</div>
+									<input type="text" id="txtClearingR" class="form-control"  value="0"  onchange="CalcularTotal()">
+								</div>		
 							</div>	
 							<div class="form-group">
-								<label for="inputEmail1" class="col-lg-2 control-label">Telefono:</label>
+								<label for="inputEmail1" class="col-lg-2 control-label">Total:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtTelefonoE" class="form-control">
-								</div>
-								<label for="inputEmail1" class="col-lg-2 control-label">Correo:</label>
+									<input type="text" id="txtTotalR" class="form-control"  value="0" readonly>
+								</div>				
+								<label for="inputEmail1" class="col-lg-2 control-label">Minimo:</label>
 								<div class="col-lg-4">
-									<input type="text" id="txtCorreoE" class="form-control">
-								</div>
+									<input type="text" id="txtMinimoR" class="form-control" value="0">
+								</div>			
 							</div>	
-							<div class="form-group">
-								<label for="inputEmail1" class="col-lg-2 control-label">Usuario:</label>
-								<div class="col-lg-4">
-									<input type="text" id="txtUsuarioE" class="form-control">
-								</div>
 
-								<div class="col-lg-4">
-									<input type="text" id="txtidUsuarioE" class="form-control" style="display:none" >
-								</div>	
+							
+							<!--
 
-							</div>							
+							-->
+							<!-- Fin de capa a ocultar -->
+
+							
 							<!-- /FORM -->
 					
 					</div>
@@ -482,14 +560,7 @@ if ($_SESSION['usuario']) {
 								<td>&nbsp;&nbsp;</td>
 								<td>
 									<button class="btn btn-primary" type="button"
-										onclick="EliminarUsuario()">
-										<span class="fa fa-user-times"></span> Eliminar
-									</button>
-								</td>
-								<td>&nbsp;&nbsp;</td>
-								<td>
-									<button class="btn btn-primary" type="button"
-										onclick="EditarUsuario()">
+										onclick="CrearUsuario()">
 										<span class="fa fa-save"></span> Guardar
 									</button>
 								</td>
@@ -507,9 +578,8 @@ if ($_SESSION['usuario']) {
 						</form>					
 					</div>
 				</div>
+				<!-- /.modal-content -->
 			</div>
-			<!-- /.modal-content -->
-		</div>
 		</div>
 		<!-- /.modal -->
 		<!-- Modal Asginar Fondos -->
@@ -666,6 +736,11 @@ if ($_SESSION['usuario']) {
 		var  num 	= parseFloat(ncr*1000)+parseFloat(clearing*1000);
 		$('#txtTotalR').val(num/1000);
 
+		var ncr = $('#txtNcE').val();
+		var clearing = $('#txtClearingE').val();	
+		var  num 	= parseFloat(ncr*1000)+parseFloat(clearing*1000);
+		$('#txtTotalE').val(num/1000);
+
 	}
 	function FiltrarUsuarios()
 	{
@@ -694,7 +769,13 @@ if ($_SESSION['usuario']) {
 
 	function AbrirPoupEditarUsuario()
 	{
-		$('#myModalVerUser').modal('show');
+		//$('#myModalVerUser').modal('show');
+		ObtenerDatosUsuario(idUsuario)
+	}
+	function AbrirPopupEditar(idUsuario){
+		
+		//$('#myModalVerUser').modal('show');
+		ObtenerDatosUsuario(idUsuario)
 	}
 
 	function CrearUsuario()
@@ -770,7 +851,84 @@ if ($_SESSION['usuario']) {
 			}
 		
 	}
+	function EditarUsuarioComision()
+	{
 
+		var Nombres = $('#txtNombresE').val();
+		var Apellidos = $('#txtApellidosE').val();
+		var Direccion = $('#txtDireccionE').val();
+		var DNI = $('#txtDNIE').val();
+		var Telefono = $('#txtTelefonoE').val();
+		var Correo = $('#txtCorreoE').val();
+		var Usuario = $('#txtUsuarioE').val();
+		var Pass = $('#txtPasswordE').val();
+		
+		var Estadoaccion = $('#txtAccionE').val();	
+		var Custodio = $('#txtCustodioE').val();
+		var Ncr = $('#txtNcE').val();
+		var Ejecutivo1 = $('#txtEjecutivo1E').val();
+		var Clearing = $('#txtClearingE').val();
+		var Ejecutivo2 = $('#txtEjecutivo2E').val();
+		var Total = $('#txtTotalE').val();
+		var Ejecutivo3 = $('#txtEjecutivo3E').val();
+		var Minimo = $('#txtMinimoE').val();
+		var Codigo = $('#txtCodigoE').val();
+		var idUsuario = $('#txtUsuarioE').val();
+		
+
+		var EjecutivoSaldo1 = $('#txtEjecutivo1ESaldo').val();
+		var EjecutivoSaldo2 = $('#txtEjecutivo2ESaldo').val();
+		var EjecutivoSaldo3 = $('#txtEjecutivo3ESaldo').val();
+
+		//Fin de campos extras
+		
+		
+		var accion = "EditarUsuarioComision";
+					
+			if(Nombres!="" && Apellidos!="" && Direccion!="" && DNI!=""
+				   && Telefono!="" && Correo!="" && Usuario!="" && Pass != "" && idUsuario != "" &&  Custodio!= "" &&  Ncr!= "" &&  Ejecutivo1!= "" &&  Clearing!= "" &&  Ejecutivo2!= "" && 
+					 Total!= "" &&  Ejecutivo3!= "" &&  Minimo!= "" && Estadoaccion!= "")
+
+			{
+				var parametros = {"accion":accion,
+							"idUsuario":idUsuario,
+							"Nombres":Nombres,"Apellidos":Apellidos,"Direccion":Direccion,
+							"DNI":DNI,"Telefono":Telefono,"Correo":Correo,"Usuario":Usuario,
+							"Password":Pass,
+							"Custodio":Custodio,
+							"Ncr":Ncr,
+							"Ejecutivo1":Ejecutivo1,
+							"Clearing":Clearing,
+							"Ejecutivo2":Ejecutivo2,
+							"Total":Total,
+							"Ejecutivo3":Ejecutivo3,
+							"Minimo":Minimo,
+							"Estadoaccion":Estadoaccion,
+							"Codigo":Codigo,
+							"EjecutivoSaldo1":EjecutivoSaldo1,
+							"EjecutivoSaldo2":EjecutivoSaldo2,
+							"EjecutivoSaldo3":EjecutivoSaldo3};
+
+				$.ajax({
+						data:  parametros,
+						url:   'Controlador/UsuarioController.php',
+						type:  'post',
+						success:  function(response){
+							mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+							$('#myModalVerUser').hide();
+							refresh();
+						},
+						error: function(data, errorThrown){
+							mensajeDiv('idMensajeU', 2, "Ocurrio un error.");
+						}
+					});
+			}
+			else
+			{
+				mensajeDiv('idMensajeU', 2, "Completar todos los campos");
+			}
+		
+	}
 	function BuscarUsuario(idUsuario)
 	{
 		var accion = "ObtenerUsuario";
@@ -881,6 +1039,24 @@ if ($_SESSION['usuario']) {
 			    success:  function(response){
 			        $('#bodyFondoAsignarGrid').html(response);
 			        $('#myModalAsigFondo').modal('show');
+			    },
+			    error: function(data, errorThrown){
+			    	//mensajeDiv('idMensajeU', 2, "Ocurrio un error.");
+			    }
+		});
+	}
+	function ObtenerDatosUsuario(idUsuario)
+	{
+		var accion = "ObtenerDatosUsuario";	
+		var parametros = {"accion":accion,"idUsuario":idUsuario};
+
+		$.ajax({
+			    data:  parametros,
+			    url:   'Controlador/UsuarioController.php',
+			    type:  'post',
+			    success:  function(response){
+			        $('#myModalVerUser').html(response);
+			        $('#myModalVerUser').modal('show');
 			    },
 			    error: function(data, errorThrown){
 			    	//mensajeDiv('idMensajeU', 2, "Ocurrio un error.");

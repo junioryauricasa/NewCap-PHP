@@ -134,6 +134,23 @@ if(is_array($_FILES)) {
 					$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
 					mysql_query($sql);
 					
+					$registroinicial = mysql_insert_id();
+					
+					$consultaejecutivo = "select idUsuarios,idEjecutivos,comision from usuarios_ejecutivos  where idUsuarios = ".$idusuario." and estado =1";
+					$ArrayConsultaEjecutivo = mysql_query($consultaejecutivo);
+					while ( $ArrayConsultaEjecutivoLee = mysql_fetch_array($ArrayConsultaEjecutivo)) {
+						if($ArrayConsultaEjecutivoLee['idEjecutivos']!="0"){
+							$RidEjecutivos = 	$ArrayConsultaEjecutivoLee['idEjecutivos'];
+							$Rcomision = 	$ArrayConsultaEjecutivoLee['comision'];
+							
+							$ejecutivocomison = ($spcomision*$Rcomision)/100;
+							$csql = "INSERT into comisiones(idOperacion,fecha,idcliente,idEjecutivo,comision,estado)" ;
+							$csql.= " values('$registroinicial','$hoy','$idusuario','$RidEjecutivos','$ejecutivocomison','1')";
+							mysql_query($csql);
+						}
+					
+					}
+					
 					$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
 					mysql_query($sql);
 					
@@ -181,6 +198,23 @@ if(is_array($_FILES)) {
 						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)";
 						$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
 						mysql_query($sql) ;
+						
+						$registroinicial = mysql_insert_id();
+							
+						$consultaejecutivo = "select idUsuarios,idEjecutivos,comision from usuarios_ejecutivos  where idUsuarios = ".$idusuario." and estado =1";
+						$ArrayConsultaEjecutivo = mysql_query($consultaejecutivo);
+						while ( $ArrayConsultaEjecutivoLee = mysql_fetch_array($ArrayConsultaEjecutivo)) {
+							if($ArrayConsultaEjecutivoLee['idEjecutivos']!="0"){
+								$RidEjecutivos = 	$ArrayConsultaEjecutivoLee['idEjecutivos'];
+								$Rcomision = 	$ArrayConsultaEjecutivoLee['comision'];
+									
+								$ejecutivocomison = ($spcomision*$Rcomision)/100;
+								$csql = "INSERT into comisiones(idOperacion,fecha,idcliente,idEjecutivo,comision,estado)" ;
+								$csql.= "values('$registroinicial','$hoy','$idusuario','$RidEjecutivos','$ejecutivocomison','1')";
+								mysql_query($csql);
+							}		
+						
+						}
 						if($cantidadportafolio==""){
 							$sql1 = "INSERT into portafolios(idActivo,idCliente,cantidad,estado)";
 							$sql1 .= "values('$idactivo','$idusuario',0,1)";

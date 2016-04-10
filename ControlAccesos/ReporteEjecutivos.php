@@ -109,11 +109,8 @@ if ($_SESSION['usuario']) {
 									<thead>
 										<tr>
 											<th>Fecha Operacion</th>
-											<th>Activo</th>
-											<th>Precio</th>
-											<th>Cantidad</th>
+											<th>Ejecutivo</th>
 											<th>Comision</th>
-											<th>Total</th>
 										</tr>
 									</thead>
 									<tbody id="BandejaUsuarios">
@@ -124,12 +121,9 @@ if ($_SESSION['usuario']) {
 										$i ++;
 									?>	
 										<tr>
-											<td><?php echo$var['fechaCarga']; ?></td>
-											<td><?php echo$var['activo']; ?></td>
-											<td><?php echo$var['precio']; ?></td>
-											<td><?php echo$var['cantidad']; ?></td>
-											<td><?php echo$var['comision']; ?></td>
-											<td><?php echo round($var['Comision'],3); ?></td>
+											<td><?php echo$var['fecha']; ?></td>
+											<td><?php echo$var['nombre']; ?></td>
+											<td><?php echo round($var['comision'],3); ?></td>
 										</tr>
 									<?php }?>
 									</tbody>

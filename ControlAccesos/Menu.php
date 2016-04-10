@@ -70,6 +70,9 @@ $util = new Util();
 				<a href="reporteEjecutivos.php" id="divimportacion" class="list-group-item">
 					<span class="fa fa-desktop"></span>Reporte Ejecutivos
 				</a> 
+				<a href="reporteComisiones.php" id="divimportacion" class="list-group-item">
+					<span class="fa fa-desktop"></span>Reporte Comisiones
+				</a> 
 				<?php }
 				else {?>
 				<a href="ClienteOperaciones.php" id="divimportacion" class="list-group-item">

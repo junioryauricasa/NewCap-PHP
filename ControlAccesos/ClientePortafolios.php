@@ -84,6 +84,7 @@ if ($_SESSION['usuario']) {
 									<thead>
 										<tr>
 											<th></th>
+											<th>Codigo</th>
 											<th>Descripcion</th>
 											<th>Cantidad</th>
 
@@ -98,6 +99,7 @@ if ($_SESSION['usuario']) {
 										?>
 										<tr>
 											<td width="28px"></td>
+											<td><?php echo$var['codigo']; ?></td>
 											<td><?php echo$var['descripcion']; ?></td>
 											<td><?php echo$var['cantidad']; ?></td>
 										</tr>

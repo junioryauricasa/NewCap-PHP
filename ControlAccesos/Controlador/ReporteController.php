@@ -12,12 +12,27 @@ if ($action == 'ListarReporteEjecutivo') {
 	while ( $var = mysql_fetch_array($result)) {
 		$filas .= "
 		<tr>
-				<td>".$var['fechaCarga']."</td>
-				<td>".$var['activo']."</td>
-				<td>".$var['precio']."</td>
-				<td>".$var['cantidad']."</td>
+				<td>".$var['fecha']."</td>
+				<td>".$var['nombre']."</td>
 				<td>".$var['comision']."</td>
-				<td>".$var['Comision']."</td>
+		</tr>
+		";
+
+	}
+	echo$filas;
+}
+else if ($action == 'ListarReporteComision') {
+	//echo var_dump($_POST['DNI']);
+
+	$result = $objeto->ObtenerreporteComisiones($_POST['idCliente'],$_POST['FechaInicio'],$_POST['FechaFin']);
+
+	$filas = "";
+	while ( $var = mysql_fetch_array($result)) {
+		$filas .= "
+		<tr>
+				<td>".$var['fecha']."</td>
+				<td>".$var['usuario']."</td>
+				<td>".$var['comision']."</td>
 		</tr>
 		";
 

@@ -126,7 +126,7 @@ class Operaciones{
 			$query.=" AND a.idCliente = '".$Usuario."'";
 		}
 
-		$query.=" ORDER BY a.idOperaciones DESC ";
+		$query.="ORDER BY a.fechaHora DESC limit 100";
 	
 		$arreglo = "";
 		$arreglo = mysql_query($query);

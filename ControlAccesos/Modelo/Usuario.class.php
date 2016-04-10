@@ -191,8 +191,50 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
 					values('0', '".$Nombres."', '".$Apellidos."', '".$Direccion."', '".$DNI."'
 						  ,'".$Telefono."', '".$Correo."', '".$Usuario."', '".$Password."',1,2,0,0)";
 			mysql_query($query);
-				$var = mysql_insert_id();
-            
+			
+			$registroinicial = mysql_insert_id();
+			
+			$query2 = "insert into usuarios_valores(idUsuarios,nc,clearing,total,minimo,estado)
+					values('".$registroinicial."', '0', '0', '0'
+						  ,'0',1)";
+			mysql_query($query2);
+			
+			if($ejecutivo1!="0"){
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '".$ejecutivo1."', '".$ejecutivo1Comision1."', '0',1)";
+				mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
+			}
+			if($ejecutivo2!="0"){
+			
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '".$ejecutivo2."', '".$ejecutivo1Comision2."', '0',1)";
+				mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
+			}
+				
+			if($ejecutivo3!="0"){
+			
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '".$ejecutivo3."', '".$ejecutivo1Comision3."', '0',1)";
+				mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
+			}
+			
+			$query4 = "insert into estadocuenta(idCliente,saldoActual)
+					values('".$registroinicial."',0)";
+			mysql_query($query4);
+			
+			$var = $registroinicial;
 			
 		}else{
 			
@@ -208,23 +250,34 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
 			mysql_query($query2);	
 			
 			if($ejecutivo1!="0"){
-				
-				
 			$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)	
 					values('".$registroinicial."', '".$ejecutivo1."', '".$ejecutivo1Comision1."', '0',1)";
 			mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
 			}
 			if($ejecutivo2!="0"){
 				
 			$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)	
 					values('".$registroinicial."', '".$ejecutivo2."', '".$ejecutivo1Comision2."', '0',1)";
 			mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
 			}
+			
 			if($ejecutivo3!="0"){
 				
 			$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)	
 					values('".$registroinicial."', '".$ejecutivo3."', '".$ejecutivo1Comision3."', '0',1)";
 			mysql_query($query3);
+			}else{
+				$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$registroinicial."', '0', '0', '0',1)";
+				mysql_query($query3);
 			}
 			
 			$query4 = "insert into estadocuenta(idCliente,saldoActual)	
@@ -257,7 +310,88 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
             $var = mysql_insert_id();
             return  $var;
     }
+    function EditarUsuarioComision($Nombres,$Apellidos,$Direccion,$DNI
+                          ,$Telefono,$Correo,$Usuario,$Password,$idUsuario,$estadoaccion,
+						  $custodio,$ncr,$ejecutivo1,$clearing,$ejecutivo2,$total,$ejecutivo3,$minimo,$codigo,
+    					  $ejecutivo1Comision1,$ejecutivo1Comision2,$ejecutivo1Comision3)
+    {
+    	$this->con->conectar();
+    	
+    	if($estadoaccion==1){
+    		$query = "update usuarios set accionario='1',
+    								  nombres='".$Nombres."',
+                                      apellidos='".$Apellidos."', 
+                                      direccion='".$Direccion."', 
+                                      dni='".$DNI."',
+                                      telefono='".$Telefono."',
+                                      correo='".$Correo."',
+                                      usuario='".$Usuario."',
+                                      password='".$Password."',		
+    								  codigo='".$codigo."' ,
+                                      idCustodio='".$custodio."' 
+                                      where idUsuarios =".$idUsuario."";
+    		mysql_query($query);
+    	}else{
+    		$query = "update usuarios set accionario='0',
+    								  nombres='".$Nombres."',
+                                      apellidos='".$Apellidos."', 
+                                      direccion='".$Direccion."', 
+                                      dni='".$DNI."',
+                                      telefono='".$Telefono."',
+                                      correo='".$Correo."',
+                                      usuario='".$Usuario."',
+                                      password='".$Password."',	
+                                      idCustodio='".$custodio."',
+                                      codigo='".$codigo."'
+                                      where idUsuarios =".$idUsuario."";
+    		mysql_query($query);
+    	}
+    
+    	$query = "update usuarios_valores set  nc='".$ncr."',
+                                      			clearing='".$clearing."',
+                                      			total='".$total."',
+                                      			minimo='".$minimo."'
+                                      			where idUsuarios =".$idUsuario."";
+    	mysql_query($query);
+    	
+    	$query = "update usuarios_ejecutivos set  estado='0'
+                                      			where idUsuarios =".$idUsuario."";
+    	
+    	mysql_query($query);
+    	
+    	if($ejecutivo1!="0"){
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '".$ejecutivo1."', '".$ejecutivo1Comision1."', '0',1)";
+    		mysql_query($query3);
+    	}else{
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '0', '0', '0',1)";
+    		mysql_query($query3);
+    	}
+    	if($ejecutivo2!="0"){
+    	
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '".$ejecutivo2."', '".$ejecutivo1Comision2."', '0',1)";
+    		mysql_query($query3);
+    	}else{
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '0', '0', '0',1)";
+    		mysql_query($query3);
+    	}
+    		
+    	if($ejecutivo3!="0"){
+    	
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '".$ejecutivo3."', '".$ejecutivo1Comision3."', '0',1)";
+    		mysql_query($query3);
+    	}else{
+    		$query3 = "insert into usuarios_ejecutivos(idUsuarios,idEjecutivos,comision,minima,estado)
+					values('".$idUsuario."', '0', '0', '0',1)";
+    		mysql_query($query3);
+    	}
 
+    	return  $var;
+    }
     function EliminarUsuario($idUsuario)
     {
         $this->con->conectar(); 
