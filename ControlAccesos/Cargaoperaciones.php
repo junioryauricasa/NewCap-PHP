@@ -50,6 +50,13 @@ if ($_SESSION['usuario']) {
 	<?php include('Cabecera.php'); ?>
 	<div class="row">
 	<?php include('Menu.php');?>
+	<?php 
+	if(!(empty($_GET[pag]))){
+		$pagina = $_GET[pag];
+	}else{
+		$pagina = "0";
+	}
+	?>
 	<input type="hidden" id="txtGerenteSolicitante" value="<?php echo$gerente['USUARIO'];?>" />
 	<input type="hidden" id="txtGerenteSolicitanteNombre" value="<?php echo$gerente['NOMBRE'];?>" />
 	<input type="hidden" id="txtGerenteSolicitanteCargo" value="<?php echo$gerente['CARGO'];?>" />
@@ -72,7 +79,7 @@ if ($_SESSION['usuario']) {
 										
 										&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 	
 										<a class="btn btn-default" data-toggle="modal"
-											onclick="ObtenerFicheros()"> <span class="fa fa-search fa-2"></span>
+											onclick="ObtenerOperaciones()"> <span class="fa fa-search fa-2"></span>
 											Buscar
 										</a> &nbsp;&nbsp; 
 										<a class="btn btn-default" data-toggle="modal"
@@ -114,7 +121,7 @@ if ($_SESSION['usuario']) {
 									<tbody id="BandejaFichero">
 										<?php
 										$ct=0;
-										$query = $Operaciones->ObtenerOperacionesActuales('','','','');
+										$query = $Operaciones->ObtenerOperacionesActuales('','','','',$pagina);
 										while ( $var = mysql_fetch_array ( $query ) ) {
 											$i ++;
 										?>
@@ -146,22 +153,8 @@ if ($_SESSION['usuario']) {
 											<?php
 											if($var['tipo'] == "APORTE")
 											{
-												$queryVA = $Clientes->ObtenerValorCuotaActual($var['idFondos']);
-												$ValorCuotaActual = 0;
-												$ValorCuotaFecha = 0;
-												while( $varVA = mysql_fetch_array($queryVA))
-												{
-													$ValorCuotaActual = $varVA['valorcuota'];
-												}
-												$queryVF = $Clientes->ObtenerValorFechaAporte($var['idFondos'],$var['fecha']);
-												while( $varVF = mysql_fetch_array($queryVF))
-												{
-													$ValorCuotaFecha = $varVF['valorcuota'];
-												}
-												$ValorFinal = ($ValorCuotaActual - $ValorCuotaFecha) * $var['NcuotasAgregado'];
-												$valorprueba = $ValorCuotaActual." - ".$ValorCuotaFecha;
-											?>
-												<td><?php echo$ValorFinal; ?>%</td>
+												?>
+												<td><?php echo $ValorFinal; ?>%</td>
 												<td><a onclick="AbrirPopupEliminar(<?php echo$var['idficheros']; ?>)">
 														<i class="fa fa-trash"> </i>
 												</a>
@@ -176,6 +169,23 @@ if ($_SESSION['usuario']) {
 										
 									</tbody>
 								</table>
+	
+							<div style="text-align:center"><strong>
+							<?php 
+							if($pagina!="0"){
+								$regpag = $pagina-20;
+							?>
+							<a href="?pag=<?php echo $regpag ?>" ><</a>
+							<?php  } ?>
+							</strong> | <strong>
+							<?php
+							$sigpag = $pagina+20;
+							?>
+							<a href="?pag=<?php echo $sigpag ?>" >></a>
+							
+							
+							</strong></div>
+								
 								<!-- /GRID -->
 							</div>
 							<div class="nav">
@@ -407,7 +417,24 @@ if ($_SESSION['usuario']) {
 			        }
 		});
 	}
-
+	function ObtenerOperaciones()
+	{
+		var FechaIni = $('#txtFechaInicio').val();
+		var FechaFin = $('#txtFechaFin').val();
+		var accion = "ObtenerOperacionesActuales";
+		var parametros = {"accion":accion,"FechaIni":FechaIni,"FechaFin":FechaFin};
+		$.ajax({
+			        data:  parametros,
+			        url:   'Controlador/OperacionesController.php',
+			        type:  'post',
+			        success:  function(response){
+			        	$('#BandejaFichero').html(response);
+			        	
+			        },
+			        error: function(data, errorThrown){
+			        }
+		});
+	}
 	function DescargarArchivo(Path)
 	{
 		var URL = Path.substring(3);

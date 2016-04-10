@@ -97,7 +97,7 @@ class Operaciones{
 		$arreglo = mysql_query($query);
 		return $arreglo;
 	}
-	function ObtenerOperacionesActuales($FechaIni,$FechaFin,$Fondo,$Usuario)
+	function ObtenerOperacionesActuales($FechaIni,$FechaFin,$Fondo,$Usuario,$pagina)
 	{
 		$this->con->conectar();
 		$query="SELECT a.idOperaciones,
@@ -125,9 +125,18 @@ class Operaciones{
 		{
 			$query.=" AND a.idCliente = '".$Usuario."'";
 		}
-
-		$query.="ORDER BY a.fechaHora DESC limit 100";
+		if(!empty($pagina)){
+			
+			$query.="ORDER BY a.fechaHora DESC limit ".$pagina;
+			$query.= " , ";
+			$query.=" 20";
+			
+		}else{
+			$query.="ORDER BY a.fechaHora DESC ";
+		}
+		
 	
+		
 		$arreglo = "";
 		$arreglo = mysql_query($query);
 		return $arreglo;

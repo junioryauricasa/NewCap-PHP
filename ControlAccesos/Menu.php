@@ -52,7 +52,7 @@ $util = new Util();
 				<li><a href="" id="divimportacion" class="list-group-item">
 				<span class="fa fa-support"></span>Acciones</a>	
 					<ul>
-						<li><a href="Cargaoperaciones.php" id="divimportacion" class="list-group-item">
+						<li><a href="Cargaoperaciones.php?pag=1" id="divimportacion" class="list-group-item">
 						<span class="fa fa"></span>Carga Operaciones</a></li>
 					</ul>
 					<ul>

@@ -42,6 +42,42 @@ if($action == 'ObtenerOperaciones')
 	}
 	echo$filas;
 }
+if($action == 'ObtenerOperacionesActuales')
+{
+	$result = $objeto->ObtenerOperacionesActuales($_POST['FechaIni'],$_POST['FechaFin'],"","","");
+	$filas = "";
+	if ($result)
+	{
+		while ( $var = mysql_fetch_array($result)) {
+			
+			if($var['TipoOperacion']== "D")
+				$rd = "Deposito";
+			if($var['TipoOperacion']== "R")
+				$rd = "Retiro";
+			if($var['TipoOperacion']== "B")
+				$rd = "Buy";
+			if($var['TipoOperacion']== "S")
+				$rd = "Sell";
+			
+			$filas .= "
+			<tr>
+					<td width='28px'></td>
+					<td>".$var['fechaHora']."</td>
+					<td>".$var['descripcion']."</td>
+					<td>".$rd."</td>
+					<td>".number_format($var['cantidad'],2,'.',',')."</td>
+					<td>".number_format($var['precio'],2,'.',',')."</td>
+					<td>".number_format($var['saldoFinal'],2,'.',',')."</td>
+
+					<td>
+						-
+					</td>
+			</tr>
+			";
+		}
+	}
+	echo$filas;
+}
 elseif($action == 'ObtenerSaldoActual')
 {
 	$result = $objeto->ObtenerSaldoActual($_POST['idUsuario']);
