@@ -117,7 +117,7 @@ class Usuario{
 	{
 		$this->con->conectar(); 
 
-		$query="SELECT * FROM usuarios where 1=1 ";
+		$query="SELECT * FROM usuarios where 1=1 and estado = 1 ";
 
         if(!empty($idUsuario))
         {
@@ -314,9 +314,19 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
                           ,$Telefono,$Correo,$Usuario,$Password,$idUsuario,$estadoaccion,
 						  $custodio,$ncr,$ejecutivo1,$clearing,$ejecutivo2,$total,$ejecutivo3,$minimo,$codigo,
     					  $ejecutivo1Comision1,$ejecutivo1Comision2,$ejecutivo1Comision3)
+    					  
+    					  
     {
     	$this->con->conectar();
     	
+    	$query ="select * from usuarios where usuario ='".$idUsuario."'";
+ 
+    	
+    	$dquery = mysql_query($query);
+    	
+    	$wdquery =  mysql_fetch_array ( $dquery );
+    	$idUsuario = $wdquery['idUsuarios'];
+	//echo $estadoaccion;
     	if($estadoaccion==1){
     		$query = "update usuarios set accionario='1',
     								  nombres='".$Nombres."',
@@ -331,6 +341,8 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
                                       idCustodio='".$custodio."' 
                                       where idUsuarios =".$idUsuario."";
     		mysql_query($query);
+    	
+//echo $query;
     	}else{
     		$query = "update usuarios set accionario='0',
     								  nombres='".$Nombres."',
@@ -345,8 +357,9 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
                                       codigo='".$codigo."'
                                       where idUsuarios =".$idUsuario."";
     		mysql_query($query);
+    		//echo $query;
     	}
-    
+    	//echo $query;
     	$query = "update usuarios_valores set  nc='".$ncr."',
                                       			clearing='".$clearing."',
                                       			total='".$total."',
@@ -400,6 +413,16 @@ function ObtenerBandejaUsuariosAcciones($idUsuario,$usuario,$dni)
         mysql_query($query);
             $var = mysql_insert_id();
             return  $var;
+    }
+    function EliminarUsuario2($idUsuario)
+    {
+    	$this->con->conectar();
+    
+    	$query = "update usuarios set estado = 0  where idUsuarios =".$idUsuario."";
+    	mysql_query($query);
+
+    	$var = mysql_insert_id();
+    	return  $var;
     }
 
     function ObtenerFondosAsignados($idUsuario)

@@ -110,7 +110,7 @@ class Operaciones{
 						a.preciou,
 						a.comision,
 						a.saldoFinal from operacionesacciones a join usuarios b on a.idCliente = b.idUsuarios 
-				join activo c on c.idActivo = a.idActivo
+				left join activo c on c.idActivo = a.idActivo
 				where a.estado = 1  ";
 	
 		if(!empty($FechaIni) && !empty($FechaFin))

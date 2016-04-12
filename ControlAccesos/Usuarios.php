@@ -170,11 +170,14 @@ if ($_SESSION['usuario']) {
 											<td><a href=# onclick="AbrirPopupVerOperaciones(<?php echo$var['idUsuarios']; ?>)">
 													<i class="fa fa-search-plus"> </i>
 												</a>
-												
+												&nbsp;
 												<a href=# onclick="AbrirPopupEditar(<?php echo$var['idUsuarios']; ?>)">
 													<i class="fa fa-database"> </i>
 												</a>
-												
+												&nbsp;
+												<a href=# onclick="AbrirPopupEliminar(<?php echo$var['idUsuarios']; ?>)">
+													<i class="fa fa-trash"> </i>
+												</a>
 											</td>
 											<td><a href=# onclick="AbrirPopupAsignarFondos(<?php echo$var['idUsuarios']; ?>)">
 													<i class="fa fa-chevron-circle-up"> </i>
@@ -729,6 +732,20 @@ if ($_SESSION['usuario']) {
 		  }
 		
 	}
+	function ValoresAccionesE(){
+		if (document.getElementById('txtAccionE').checked) 
+		  {
+			  document.getElementById('capaoculta').style.display = 'block';
+			  $('#txtEstadoAccionE').val("1");
+			  
+
+		  } else {
+			  document.getElementById('capaoculta').style.display = 'none';
+			  $('#txtEstadoAccionE').val("0");
+		  }
+		
+	}
+	
 	function CalcularTotal(){
 		//txtTotalR
 		var ncr = $('#txtNcR').val();
@@ -863,7 +880,7 @@ if ($_SESSION['usuario']) {
 		var Usuario = $('#txtUsuarioE').val();
 		var Pass = $('#txtPasswordE').val();
 		
-		var Estadoaccion = $('#txtAccionE').val();	
+		var Estadoaccion = $('#txtEstadoAccionE').val();	
 		var Custodio = $('#txtCustodioE').val();
 		var Ncr = $('#txtNcE').val();
 		var Ejecutivo1 = $('#txtEjecutivo1E').val();
@@ -885,15 +902,20 @@ if ($_SESSION['usuario']) {
 		
 		var accion = "EditarUsuarioComision";
 					
-			if(Nombres!="" && Apellidos!="" && Direccion!="" && DNI!=""
-				   && Telefono!="" && Correo!="" && Usuario!="" && Pass != "" && idUsuario != "" &&  Custodio!= "" &&  Ncr!= "" &&  Ejecutivo1!= "" &&  Clearing!= "" &&  Ejecutivo2!= "" && 
-					 Total!= "" &&  Ejecutivo3!= "" &&  Minimo!= "" && Estadoaccion!= "")
-
+			if( Custodio!= "" && 
+				    Ncr!= "" &&  Ejecutivo1!= "" &&  Clearing!= "" &&  Ejecutivo2!= "" && 
+					 Total!= "" &&  Ejecutivo3!= "" )
 			{
+				
 				var parametros = {"accion":accion,
 							"idUsuario":idUsuario,
-							"Nombres":Nombres,"Apellidos":Apellidos,"Direccion":Direccion,
-							"DNI":DNI,"Telefono":Telefono,"Correo":Correo,"Usuario":Usuario,
+							"Nombres":Nombres,
+							"Apellidos":Apellidos,
+							"Direccion":Direccion,
+							"DNI":DNI,
+							"Telefono":Telefono,
+							"Correo":Correo,
+							"Usuario":Usuario,
 							"Password":Pass,
 							"Custodio":Custodio,
 							"Ncr":Ncr,
@@ -914,8 +936,10 @@ if ($_SESSION['usuario']) {
 						url:   'Controlador/UsuarioController.php',
 						type:  'post',
 						success:  function(response){
-							mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+							//mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+							//$('#idMensajeD').html(response);
 							$('#myModalVerUser').hide();
+
 							refresh();
 						},
 						error: function(data, errorThrown){
@@ -1018,6 +1042,24 @@ if ($_SESSION['usuario']) {
 		else
 		{
 			mensajeDiv('idMensajeE', 2, "Completar todos los campos");
+		}
+	}
+	function AbrirPopupEliminar(idUsuario)
+	{
+		var answer = confirm("Esta Seguro que quiere eliminar el Usuario?")
+		if (answer){
+			var accion = "EliminarUsuario2";
+		    var parametros = {"accion":accion,"idUsuario":idUsuario};
+			$.ajax({
+				data:  parametros,
+				url:   'Controlador/UsuarioController.php',
+				type:  'post',
+				success:  function(response){
+					refresh();
+				},
+				error: function(data, errorThrown){
+				}
+			});	
 		}
 	}
 

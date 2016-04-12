@@ -113,9 +113,9 @@ if ($_SESSION['usuario']) {
 											<th>Usuario</th>
 											<th>Tipo</th>
 											<th>Monto</th>
-											<th>Saldo Anterior</th>
-											<th>Saldo Actual</th>
-											<th>Eliminar</th>
+											<th>Comision</th>
+											<th>Precio</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody id="BandejaFichero">
@@ -141,8 +141,8 @@ if ($_SESSION['usuario']) {
 											 ?></td>
 											
 											<td><?php echo number_format($var['cantidad'],2,'.',','); ?></td>
-											<td><?php echo number_format($var['precio'],2,'.',','); ?></td>
-											<td><?php echo number_format($var['saldoFinal'],2,'.',','); ?></td>
+											<td><?php echo number_format($var['comision'],2,'.',','); ?></td>
+											<td><?php echo number_format($var['preciou'],2,'.',','); ?></td>
 											<?php 
 											if($var['tipo'] == "APORTE")
 											{	

@@ -105,6 +105,11 @@ elseif($action == 'EliminarUsuario')
 	$result = $objeto->EliminarUsuario($_POST['idUsuario']);
 	echo$result;
 }
+elseif($action == 'EliminarUsuario2')
+{
+	$result = $objeto->EliminarUsuario2($_POST['idUsuario']);
+	echo$result;
+}
 elseif($action == 'ObtenerFondosAsignados')
 {
 	$result = $objeto->ObtenerFondosAsignados($_POST['idUsuario']);
@@ -144,11 +149,17 @@ elseif($action == 'ObtenerDatosUsuario'){
 
 	$arreglo = mysql_query($query);
 	
-	
+	/*
 	$queryUser="select a.idUsuarios,a.codigo,b.nc,b.clearing, b.total, b.minimo, c.idCustodios,c.nombre as custodio, a.accionario, ";
 	$queryUser.="a.nombres,a.apellidos,a.direccion,a.dni,a.telefono, a.correo,a.usuario,a.password from usuarios a inner join ";
 	$queryUser.="usuarios_valores b inner join custodios c on a.idUsuarios = b.idUsuarios and a.idCustodio = c.idCustodios ";
 	$queryUser.="where a.idUsuarios = ".$idUsuario." and a.estado = 1 ";
+	*/
+	$queryUser= "select f.idUsuarios,f.codigo,f.nc,f.clearing, f.total, f.minimo, f.idCustodio,  f.accionario,
+ f.nombres,f.apellidos,f.direccion,f.dni,f.telefono, f.correo,f.usuario,f.password, c.nombre as custodio from ( select a.idUsuarios,a.codigo,b.nc,b.clearing, b.total, b.minimo, a.idCustodio,  a.accionario,";
+	$queryUser.="		a.nombres,a.apellidos,a.direccion,a.dni,a.telefono, a.correo,a.usuario,a.password from usuarios a inner join ";
+	$queryUser.="		usuarios_valores b on a.idUsuarios = b.idUsuarios where a.idUsuarios =  ".$idUsuario.") f ";
+	$queryUser.="		left join custodios c on f.idCustodio = c.idCustodios";
 
 	$arregloUser = mysql_query($queryUser );
 	$dusuario = mysql_fetch_array ( $arregloUser )
@@ -169,7 +180,7 @@ elseif($action == 'ObtenerDatosUsuario'){
 						</h4>
 					</div>
 					<div class="modal-body" style="padding-bottom: 0px !important;">
-						<div id="idMensajeU"></div>
+						<div id="idMensajeD"></div>
 						<!-- FORM -->
 						<form class="bs-example form-horizontal u-action-error">
 						
@@ -225,11 +236,13 @@ elseif($action == 'ObtenerDatosUsuario'){
 								<div class="col-lg-4">
 									<input type="checkbox" id="txtAccionE" value="1" 
 									<?php 
-									if($dusuario['idCustodios']==1){
+									if($dusuario['accionario']==1){
 									?>
 									checked="checked"
-									<?php } ?>
-									>
+									<?php } ?> onchange="ValoresAccionesE()">
+									
+									<input type="hidden" id="txtEstadoAccionE" value="0" >	
+									
 								</div>
 							</div>	
 							<div class="form-group">
@@ -238,9 +251,9 @@ elseif($action == 'ObtenerDatosUsuario'){
 									<select id="txtCustodioE" class="form-control">
 									<option value="0"  selected>Seleccionar</option>
 									<?php 
-									if(!(empty($dusuario['idCustodios']))){
+									if(!(empty($dusuario['idCustodio']))){
 									?>
-									<option value="<?php echo $dusuario['idCustodios']; ?>"  selected><?php echo $dusuario['custodio']; ?></option>
+									<option value="<?php echo $dusuario['idCustodio']; ?>"  selected><?php echo $dusuario['custodio']; ?></option>
 									<?php
 									}
 									$query = $Custodio->ObtenerCustodios();

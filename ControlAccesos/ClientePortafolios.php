@@ -162,7 +162,7 @@ if ($_SESSION['usuario']) {
 									<tbody id="BandejaOperaciones">
 										<?php
 										$ct=0;
-										$query = $Operaciones->ObtenerOperacionesActuales('','','',$_SESSION['idUsuario']);
+										$query = $Operaciones->ObtenerOperacionesActuales('','','',$_SESSION['idUsuario'],'');
 										while ( $var = mysql_fetch_array ( $query ) ) {
 											$i ++;
 										?>

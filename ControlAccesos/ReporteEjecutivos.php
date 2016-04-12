@@ -101,7 +101,9 @@ if ($_SESSION['usuario']) {
 								</div>
 								&nbsp;
 							</div>
-	
+							<div id="CountBandejaUsuarios">
+							</div>
+
 							<div class="table-responsive u-table-search">
 								<!-- GRID -->
 								<table id="principal"
@@ -519,7 +521,8 @@ if ($_SESSION['usuario']) {
 		var FechaInicio= $('#txtFechaInicio').val();
 		var FechaFin = $('#txtFechaFin').val();
 		var accion = "ListarReporteEjecutivo";
-		debugger;
+		//debugger;
+		CountEjecutarreporte();
 		if(Ejecutivo!="" && FechaInicio !=""&& FechaFin !=""  )
 		{
 			var parametros = {"accion":accion,"Ejecutivo":Ejecutivo,"FechaInicio":FechaInicio,"FechaFin":FechaFin};
@@ -530,9 +533,44 @@ if ($_SESSION['usuario']) {
 			        success:  function(response){
 			        	//mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
 			        	$("#BandejaUsuarios").html(response);
+			        	
+			        	
 			        },
 			        error: function(data, errorThrown){
 			        	mensajeDiv('idMensajeU', 2, "Ocurrio un error.");
+			        }
+				});
+		}
+		else
+		{
+			mensajeDiv('idMensajeU', 2, "Completar todos los campos");
+		}
+	}
+	function CountEjecutarreporte()
+	{
+		var Ejecutivo = $('#txtEjecutivo1R').val();
+		var FechaInicio= $('#txtFechaInicio').val();
+		var FechaFin = $('#txtFechaFin').val();
+		var accion = "countListarReporteEjecutivo";
+		
+		//debugger;
+		if(Ejecutivo!="" && FechaInicio !=""&& FechaFin !=""  )
+		{
+
+			var parametros = {"accion":accion,"Ejecutivo":Ejecutivo,"FechaInicio":FechaInicio,"FechaFin":FechaFin};
+			$.ajax({
+			        data:  parametros,
+			        url:   'Controlador/ReporteController.php',
+			        type:  'post',
+			        success:  function(response){
+			        	//mensajeDiv('idMensajeU', 1, "Se guardo exitosamente");
+			        	
+			        	$("#CountBandejaUsuarios").html(response);
+			        	
+			        },
+			        error: function(data, errorThrown){
+			        	///mensajeDiv('idMensajeU', 2, "Ocurrio un error.");
+			        	
 			        }
 				});
 		}

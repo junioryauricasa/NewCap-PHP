@@ -51,7 +51,9 @@ if(is_array($_FILES)) {
 			$cadenaRetorno .="<td>". $data[7]."</td>";
 			$cadenaRetorno .="<td>". $data[8]."</td>";
 			$cadenaRetorno .="<td>". $data[9]."</td>";
-
+			$preciofinal=0;
+			$SaldoActual=0;
+			$saldofinal=0;
 			//Obtenermos el activo
 
 			$query="SELECT idActivo
@@ -127,8 +129,12 @@ if(is_array($_FILES)) {
 					}
 					$preciofinal =	($precio*$cantidad)+$spcomision;
 					
-					//echo $preciofinal." ".$precio." ".$totalcomision." ".$totalcomision." ".$cantidad;
+
 					$saldofinal =$SaldoActual-$preciofinal;
+					//echo $saldofinal." ".$SaldoActual." ".$preciofinal."/n  ---";
+					$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
+					mysql_query($sql);
+					
 					$hoy = date("Y-m-d");
 					$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)";
 					$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
@@ -151,8 +157,7 @@ if(is_array($_FILES)) {
 					
 					}
 					
-					$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
-					mysql_query($sql);
+					
 					
 					
 					if($cantidadportafolio==""){
@@ -192,8 +197,10 @@ if(is_array($_FILES)) {
 						
 
 						$saldofinal =$SaldoActual+$preciofinal;
+						//echo $saldofinal." ".$SaldoActual." ".$preciofinal."/n  ---";
 						$sql = "UPDATE estadocuenta set saldoActual='".$saldofinal."' where idCliente='".$idusuario."'";
 						mysql_query($sql);
+						
 						$hoy = date("Y-m-d");
 						$sql = "INSERT into operacionesacciones(fechaHora,idActivo,idCliente,tipoOperacion,cantidad,preciou,precio,comision,saldoFinal,estado,fechaCarga)";
 						$sql .= "values('$fechafinal','$idactivo','$idusuario','$operacion','$cantidad','$precio','$preciofinal','$spcomision','$saldofinal',1,'$hoy')";
@@ -210,7 +217,7 @@ if(is_array($_FILES)) {
 									
 								$ejecutivocomison = ($spcomision*$Rcomision)/100;
 								$csql = "INSERT into comisiones(idOperacion,fecha,idcliente,idEjecutivo,comision,estado)" ;
-								$csql.= "values('$registroinicial','$hoy','$idusuario','$RidEjecutivos','$ejecutivocomison','1')";
+								$csql.= "values('$registroinicial','$fechafinal','$idusuario','$RidEjecutivos','$ejecutivocomison','1')";
 								mysql_query($csql);
 							}		
 						
